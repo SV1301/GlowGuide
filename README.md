@@ -1,6 +1,6 @@
 # GlowGuide
 
-GlowGuide is an interactive personal care platform for girls and young women. It helps users understand skincare, bodycare, hygiene, and basic self-care product categories, then guides them through personalized routines based on skin type, concern, and budget.
+GlowGuide is an interactive unisex personal care platform. It helps users understand skincare, bodycare, hygiene, and basic self-care product categories, then guides them through personalized routines based on skin type, concern, and budget.
 
 ## Problem Statement
 
@@ -21,14 +21,18 @@ GlowGuide provides:
 
 ## Tech Stack
 
-- Frontend: React with Vite
-- Styling: Tailwind CSS
-- Icons: Lucide React
-- Backend: Node.js with Express
-- Database: MongoDB Atlas
-- ODM: Mongoose
-- Deployment: Vercel or Netlify for frontend, Render for backend
+- App Framework: Streamlit
+- Language: Python
+- Data Handling: pandas
+- Database: SQLite for MVP, Supabase PostgreSQL as future cloud database option
+- Charts/Visuals: Streamlit native charts and optional Plotly
+- Styling: Streamlit theme configuration and custom CSS
+- Deployment: Streamlit Community Cloud
 - Version Control: GitLab
+
+## UI Direction
+
+GlowGuide should use a unisex, calm, clean design instead of a heavily feminine visual style. The interface should feel inclusive, modern, and care-focused with neutral colors such as soft white, mist gray, sage, teal, muted blue, and warm accent tones. Copy should address "users" or "people" rather than only girls or women.
 
 ## Open Source Contribution Model
 

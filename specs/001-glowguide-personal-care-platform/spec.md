@@ -2,7 +2,7 @@
 
 ## Overview
 
-GlowGuide is an interactive website that helps girls and young women understand personal care routines across skincare, bodycare, hygiene, and haircare. The platform explains generic product terms, organizes care steps by category, and recommends suitable product categories and routine steps based on user-selected skin type, concern, and budget.
+GlowGuide is an interactive unisex website that helps people understand personal care routines across skincare, bodycare, hygiene, and haircare. The platform explains generic product terms, organizes care steps by category, and recommends suitable product categories and routine steps based on user-selected skin type, concern, and budget.
 
 GlowGuide is also designed as an open-source knowledge platform. Public contributors can suggest improvements to product explanations, routine steps, ingredient notes, and caution notes. Contributions must be reviewed before appearing in live recommendations.
 
@@ -13,7 +13,7 @@ GlowGuide is also designed as an open-source knowledge platform. Public contribu
 - Allow users to explore routines based on skin type and concern.
 - Provide product category recommendations using structured database records.
 - Support community contributions through a safe submission and review workflow.
-- Create a visually engaging, easy-to-navigate website suitable for a hackathon demo.
+- Create a visually engaging, inclusive, easy-to-navigate Streamlit website suitable for a hackathon demo.
 
 ## Non-Goals
 
@@ -25,7 +25,7 @@ GlowGuide is also designed as an open-source knowledge platform. Public contribu
 
 ## Target Users
 
-- Girls and young women starting personal care routines.
+- People starting personal care routines.
 - Students who want a simple guide to skincare, bodycare, and hygiene.
 - Beginners confused by product names, ingredients, and routine order.
 - Users looking for budget-aware recommendations by skin type or concern.
@@ -122,6 +122,8 @@ Acceptance Criteria:
 - FR-012: The system shall store each contribution with a review status.
 - FR-013: The system shall prevent unapproved contributions from appearing in recommendation results.
 - FR-014: The system shall provide maintainers with a review workflow for approving or rejecting contributions.
+- FR-015: The system shall use inclusive, unisex UI language and visual styling.
+- FR-016: The system shall be implemented as a Streamlit application for the MVP.
 
 ## Data Requirements
 
@@ -145,6 +147,7 @@ The backend database must store:
 - The demo includes at least 5 skin types and 8 common concerns.
 - The demo includes a contribution submission flow or documented API design for contributions.
 - The website is visually clear and usable on mobile.
+- The interface avoids gender-exclusive copy and uses inclusive visual design.
 
 ## Risks
 
@@ -157,6 +160,6 @@ The backend database must store:
 
 - Add clear educational disclaimers.
 - Store only generic product category data at first.
-- Use a simple Express API and MongoDB Atlas database.
+- Use Streamlit with a simple database layer for the MVP.
 - Add contribution review statuses and do not publish pending submissions.
 - Prioritize the routine builder, product library, and category pages.

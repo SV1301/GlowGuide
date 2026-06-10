@@ -14,23 +14,23 @@
 
 ## Phase 2: Repository Setup
 
-- [ ] Create root project folder named `glowguide`.
+- [ ] Create or clone GitLab repository named `GlowGuide`.
 - [ ] Initialize Git repository.
-- [ ] Create `client` folder for React frontend.
-- [ ] Create `server` folder for Express backend.
-- [ ] Add `.gitignore` for `node_modules`, `.env`, and build files.
+- [ ] Create Streamlit project structure.
+- [ ] Add `.gitignore` for `.env`, Python cache files, virtual environments, and generated database backups.
 - [ ] Add README and Spec Kit folders to repository.
 
-## Phase 3: Frontend Setup
+## Phase 3: Streamlit Setup
 
-- [ ] Create React app using Vite.
-- [ ] Install Tailwind CSS.
-- [ ] Install Lucide React icons.
-- [ ] Add React Router.
-- [ ] Create shared layout with navigation.
-- [ ] Create responsive page shell.
+- [ ] Install Python.
+- [ ] Create virtual environment.
+- [ ] Install Streamlit, pandas, and required packages.
+- [ ] Create `app.py`.
+- [ ] Create `.streamlit/config.toml`.
+- [ ] Create Streamlit multipage navigation.
+- [ ] Apply unisex theme colors and custom CSS.
 
-## Phase 4: Frontend Pages
+## Phase 4: Streamlit Pages
 
 - [ ] Build Home page.
 - [ ] Build Skincare page.
@@ -42,35 +42,34 @@
 - [ ] Build Contribute page for public submissions.
 - [ ] Build Recommendation Results section.
 
-## Phase 5: Backend Setup
+## Phase 5: Database Setup
 
-- [ ] Initialize Node.js server project.
-- [ ] Install Express, Mongoose, CORS, and dotenv.
-- [ ] Create Express app.
-- [ ] Connect backend to MongoDB Atlas.
-- [ ] Add health check endpoint.
-- [ ] Add error handling middleware.
+- [ ] Create SQLite database.
+- [ ] Create Python database helper module.
+- [ ] Create seed data files.
+- [ ] Create database initialization script or function.
+- [ ] Load starter records into SQLite.
 
 ## Phase 6: Database Models
 
-- [ ] Create ProductCategory model.
-- [ ] Create SkinType model.
-- [ ] Create Concern model.
-- [ ] Create RoutineTemplate model.
-- [ ] Create RecommendationRule model.
-- [ ] Create Contribution model.
+- [ ] Create ProductCategory table.
+- [ ] Create SkinType table.
+- [ ] Create Concern table.
+- [ ] Create RoutineTemplate table.
+- [ ] Create RecommendationRule table.
+- [ ] Create Contribution table.
 - [ ] Create seed script for initial data.
 
-## Phase 7: API Routes
+## Phase 7: Python Services
 
-- [ ] Add `/api/categories` route.
-- [ ] Add `/api/skin-types` route.
-- [ ] Add `/api/concerns` route.
-- [ ] Add `/api/products` route with filters.
-- [ ] Add `/api/routines` route.
-- [ ] Add `/api/recommendations` route.
-- [ ] Add `/api/contributions` route for public submissions.
-- [ ] Add contribution review route for maintainers.
+- [ ] Add category loading function.
+- [ ] Add skin type loading function.
+- [ ] Add concern loading function.
+- [ ] Add product filter function.
+- [ ] Add routine loading function.
+- [ ] Add recommendation generator function.
+- [ ] Add contribution submission function.
+- [ ] Add contribution review function.
 
 ## Phase 8: Recommendation Flow
 

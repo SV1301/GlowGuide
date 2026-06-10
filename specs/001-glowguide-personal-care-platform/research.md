@@ -1,40 +1,47 @@
 # Research: GlowGuide Personal Care Platform
 
-## Decision: Use React with Vite for Frontend
+## Decision: Use Streamlit for the MVP
 
-React with Vite is selected because it is beginner-friendly, fast to start, widely used in hackathons, and suitable for building interactive interfaces such as filters, tabs, cards, and routine builders.
-
-Alternatives considered:
-
-- Plain HTML, CSS, and JavaScript: easier at first, but harder to organize as the app grows.
-- Next.js: powerful, but may add unnecessary complexity for a first hackathon.
-
-## Decision: Use Tailwind CSS
-
-Tailwind CSS is selected because it allows fast styling without writing large custom CSS files. It is suitable for creating a clean, responsive, visually polished interface within limited time.
+Streamlit is selected because it is beginner-friendly, fast to build with, and suitable for creating forms, filters, dashboards, recommendation results, and contribution review screens in Python. It allows GlowGuide to be built as one app instead of separate frontend and backend projects.
 
 Alternatives considered:
 
-- Bootstrap: faster for basic components but less flexible visually.
-- Custom CSS: flexible but slower for a beginner.
+- React with Vite: flexible and visually strong, but requires more frontend setup.
+- Next.js: powerful, but unnecessary for the MVP.
+- Plain HTML, CSS, and JavaScript: simple initially, but weaker for database-backed interactive flows.
 
-## Decision: Use Node.js and Express for Backend
+## Decision: Use Streamlit Theme and Custom CSS
 
-Express is selected because it is simple, common, and easy to connect with a React frontend. It is suitable for building REST API endpoints for products, skin types, concerns, and recommendations.
-
-Alternatives considered:
-
-- Django: powerful but may be heavier for this project.
-- Firebase-only backend: simpler, but less clear for demonstrating custom backend logic.
-
-## Decision: Use MongoDB Atlas for Database
-
-MongoDB Atlas is selected because GlowGuide content is document-based and may have flexible fields for ingredients, concerns, cautions, and recommendations. MongoDB documents match the JSON-like structure used by the frontend.
+Streamlit theme configuration and light custom CSS are selected because they keep styling simple while allowing GlowGuide to feel polished and unisex.
 
 Alternatives considered:
 
-- PostgreSQL: strong relational database, but schema changes may take more planning.
-- Local JSON only: simpler, but does not satisfy the backend/database requirement.
+- Tailwind CSS: strong for React projects, but not needed for Streamlit.
+- Heavy custom CSS: flexible but slower for a first build.
+
+## Decision: Use Python Modules Instead of a Separate Backend
+
+Because Streamlit runs Python directly, the MVP does not need a separate Express backend. Recommendation logic, contribution handling, and database access can live in organized Python modules.
+
+Alternatives considered:
+
+- Node.js and Express: useful for a React app, but extra complexity here.
+- Django: powerful but too large for the first version.
+- FastAPI: good future option if GlowGuide later needs a public API.
+
+## Decision: Use SQLite for MVP Database
+
+SQLite is selected because it works locally on Windows without database server setup and is enough for storing product categories, concerns, recommendation rules, and contribution submissions during the MVP.
+
+Alternatives considered:
+
+- Supabase PostgreSQL: better for deployed public contributions, but requires cloud setup.
+- MongoDB Atlas: flexible, but less directly aligned with a simple Streamlit/Python MVP.
+- Local CSV or JSON only: simpler, but weaker as a database-backed project.
+
+## Decision: Make GlowGuide Unisex
+
+GlowGuide should support anyone learning personal care routines. The content can stay focused on skincare, bodycare, hygiene, and haircare, but the language and UI should avoid gender-exclusive wording. The visual system should use neutral, calm colors instead of a strongly feminine palette.
 
 ## Recommendation Strategy
 

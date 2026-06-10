@@ -2,10 +2,11 @@
 
 ## ProductCategory
 
-Represents a generic product term such as cleanser, moisturizer, sunscreen, body lotion, deodorant, or exfoliant.
+Represents a generic product term such as cleanser, moisturizer, sunscreen, body lotion, deodorant, or exfoliant. In the Streamlit MVP, this can be represented as a SQLite table.
 
 Fields:
 
+- `id`: Primary key.
 - `name`: Product category name.
 - `slug`: URL-friendly identifier.
 - `careCategory`: skincare, bodycare, hygiene, or haircare.
@@ -26,6 +27,7 @@ Represents a skin type used for recommendations.
 
 Fields:
 
+- `id`: Primary key.
 - `name`: Oily, dry, combination, normal, or sensitive.
 - `slug`: URL-friendly identifier.
 - `description`: Beginner-friendly explanation.
@@ -38,6 +40,7 @@ Represents a user concern such as acne, dryness, pigmentation, odor, or ingrown 
 
 Fields:
 
+- `id`: Primary key.
 - `name`: Concern name.
 - `slug`: URL-friendly identifier.
 - `careCategory`: skincare, bodycare, hygiene, or haircare.
@@ -51,6 +54,7 @@ Represents a reusable routine structure.
 
 Fields:
 
+- `id`: Primary key.
 - `title`: Routine name.
 - `careCategory`: skincare, bodycare, hygiene, or haircare.
 - `skinTypes`: Matching skin types.
@@ -66,6 +70,7 @@ Represents one step inside a routine.
 
 Fields:
 
+- `id`: Primary key.
 - `order`: Step order.
 - `stepName`: Name of the step.
 - `productCategorySlug`: Linked product category.
@@ -79,6 +84,7 @@ Represents matching logic for recommendation results.
 
 Fields:
 
+- `id`: Primary key.
 - `careCategory`: skincare, bodycare, hygiene, or haircare.
 - `skinType`: Matching skin type.
 - `concern`: Matching concern.
@@ -94,6 +100,7 @@ Represents a public suggestion submitted by a community contributor.
 
 Fields:
 
+- `id`: Primary key.
 - `title`: Short title for the contribution.
 - `contributorName`: Public name or alias.
 - `contributorContact`: Optional contact field if follow-up is needed.

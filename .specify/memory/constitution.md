@@ -10,11 +10,15 @@ All content must be understandable for users who are new to skincare, bodycare, 
 
 ## 3. Inclusive Personal Care
 
-GlowGuide must support common skin types and concerns including oily, dry, combination, normal, and sensitive skin. Content should be respectful, non-judgmental, and inclusive of different budgets, routines, and experience levels.
+GlowGuide must support common skin types and concerns including oily, dry, combination, normal, and sensitive skin. Content should be respectful, non-judgmental, unisex, and inclusive of different budgets, routines, identities, and experience levels.
 
 ## 4. Structured, Database-Driven Content
 
 Product categories, routine steps, concerns, skin types, ingredients, and recommendations must be stored as structured data in the database. The frontend should display recommendations by filtering and matching this structured content instead of hardcoding all results directly into UI components.
+
+## 4A. Streamlit-First Simplicity
+
+GlowGuide should use Streamlit to keep the first implementation simple, demo-ready, and easy for a beginner developer to maintain. The application may combine interface, routing, recommendation logic, and database access in a Python app structure as long as the code remains organized into clear modules.
 
 ## 5. Clear Separation of Education and Recommendation
 
