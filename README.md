@@ -30,6 +30,40 @@ GlowGuide provides:
 - Deployment: Streamlit Community Cloud
 - Version Control: GitLab
 
+## How to Run Locally
+
+Use Windows PowerShell from the repository root.
+
+```powershell
+python --version
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+If `python --version` does not work, install Python from https://www.python.org/downloads/ and enable the "Add python.exe to PATH" checkbox during installation.
+
+After running the app, Streamlit will show a local URL such as:
+
+```text
+http://localhost:8501
+```
+
+Open that URL in your browser.
+
+## Compliance Notes
+
+The repository includes the standard Spec Kit structure:
+
+- `.specify/memory/constitution.md`
+- `.specify/templates/spec-template.md`
+- `.specify/templates/plan-template.md`
+- `.specify/templates/tasks-template.md`
+- `specs/001-glowguide-personal-care-platform/spec.md`
+- `specs/001-glowguide-personal-care-platform/plan.md`
+- `specs/001-glowguide-personal-care-platform/tasks.md`
+
 ## UI Direction
 
 GlowGuide should use a unisex, calm, clean design instead of a heavily feminine visual style. The interface should feel inclusive, modern, and care-focused with neutral colors such as soft white, mist gray, sage, teal, muted blue, and warm accent tones. Copy should address "users" or "people" rather than only girls or women.
