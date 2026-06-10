@@ -3,8 +3,6 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-import pandas as pd
-
 ROOT_DIR = Path(__file__).resolve().parents[1]
 DB_DIR = ROOT_DIR / "db"
 DB_PATH = DB_DIR / "glowguide.db"
@@ -64,9 +62,10 @@ def initialize_database() -> None:
             )
 
 
-def get_products() -> pd.DataFrame:
+def get_products() -> list[dict]:
     with connect() as conn:
-        return pd.read_sql_query("SELECT * FROM products ORDER BY care_category, routine_step, name", conn)
+        rows = conn.execute("SELECT * FROM products ORDER BY care_category, routine_step, name").fetchall()
+        return [dict(row) for row in rows]
 
 
 def save_contribution(data: dict[str, str]) -> None:
@@ -89,7 +88,7 @@ def save_contribution(data: dict[str, str]) -> None:
         )
 
 
-def get_contributions(status: str | None = None) -> pd.DataFrame:
+def get_contributions(status: str | None = None) -> list[dict]:
     query = "SELECT * FROM contributions"
     params: tuple[str, ...] = ()
     if status:
@@ -97,7 +96,8 @@ def get_contributions(status: str | None = None) -> pd.DataFrame:
         params = (status,)
     query += " ORDER BY created_at DESC"
     with connect() as conn:
-        return pd.read_sql_query(query, conn, params=params)
+        rows = conn.execute(query, params).fetchall()
+        return [dict(row) for row in rows]
 
 
 def review_contribution(contribution_id: int, status: str, reviewer_note: str) -> None:

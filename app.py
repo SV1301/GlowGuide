@@ -93,28 +93,31 @@ def library_page(products) -> None:
     st.header("Product Library")
     st.write("Search generic product categories and learn what each one does.")
 
-    categories = ["All"] + sorted(products["care_category"].unique().tolist())
+    categories = ["All"] + sorted({product["care_category"] for product in products})
     selected_category = st.selectbox("Care category", categories)
     query = st.text_input("Search product terms")
 
-    filtered = products.copy()
+    filtered = products
     if selected_category != "All":
-        filtered = filtered[filtered["care_category"] == selected_category]
+        filtered = [product for product in filtered if product["care_category"] == selected_category]
     if query:
-        filtered = filtered[
-            filtered["name"].str.contains(query, case=False, na=False)
-            | filtered["description"].str.contains(query, case=False, na=False)
+        query_lower = query.lower()
+        filtered = [
+            product
+            for product in filtered
+            if query_lower in product["name"].lower()
+            or query_lower in product["description"].lower()
         ]
 
-    if filtered.empty:
+    if not filtered:
         st.info("No matching product terms found yet.")
         return
 
     for chunk_start in range(0, len(filtered), 2):
         cols = st.columns(2)
-        for col, (_, product) in zip(cols, filtered.iloc[chunk_start : chunk_start + 2].iterrows()):
+        for col, product in zip(cols, filtered[chunk_start : chunk_start + 2]):
             with col:
-                render_product_card(product.to_dict())
+                render_product_card(product)
 
 
 def routine_page(products) -> None:
@@ -142,13 +145,20 @@ def routine_page(products) -> None:
         st.markdown(f"- {step}")
 
     st.subheader("Recommended Product Categories")
-    if matches.empty:
+    if not matches:
         st.info("No exact database match yet. Try a broader concern or flexible budget.")
     else:
-        st.dataframe(
-            matches[["name", "routine_step", "when_to_use", "ingredients", "caution_note"]],
-            use_container_width=True,
-            hide_index=True,
+        st.table(
+            [
+                {
+                    "Product": product["name"],
+                    "Step": product["routine_step"],
+                    "When": product["when_to_use"],
+                    "Look for": product["ingredients"],
+                    "Note": product["caution_note"],
+                }
+                for product in matches
+            ]
         )
 
     st.warning(
@@ -199,11 +209,11 @@ def review_page() -> None:
         return
 
     pending = get_contributions("pending")
-    if pending.empty:
+    if not pending:
         st.success("No pending contributions.")
         return
 
-    for _, row in pending.iterrows():
+    for row in pending:
         with st.expander(f"#{row['id']} - {row['title']}"):
             st.write(row["proposed_content"])
             st.caption(f"{row['contribution_type']} | {row['care_category']} | by {row['contributor_name']}")
