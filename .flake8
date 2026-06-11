@@ -2,11 +2,10 @@
 max-line-length = 100
 max-doc-length = 100
 extend-ignore =
-    # handled by ruff/pylint or intentional
-    E203,  # whitespace before ':'  (Black/Ruff compatible)
-    W503,  # line break before binary operator
-    W504,  # line break after binary operator
-    S101,  # assert (acceptable outside security boundaries)
+    E203,
+    W503,
+    W504,
+    S101,
 exclude =
     .venv,
     .git,
@@ -16,7 +15,6 @@ exclude =
     .specify,
     *.egg-info
 per-file-ignores =
-    # UI entry-point — relax annotation checks
     app.py: ANN001,ANN002,ANN003,ANN201,ANN202
 statistics = True
 count = True
