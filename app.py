@@ -31,20 +31,15 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# Design system CSS
+# Design system CSS  (plain string — NOT f-string; CSS braces must not be
+# treated as Python expression placeholders by Ruff)
 # ---------------------------------------------------------------------------
-# Build the Google Fonts URL from short segments so no source line
-# exceeds 100 chars (Flake8 E501 checks physical lines in string literals).
-_GF_URL = (
-    "https://fonts.googleapis.com/css2"
-    "?family=Playfair+Display:wght@400;600;700"
-    "&family=Inter:wght@300;400;500;600"
-    "&display=swap"
-)
-
-CUSTOM_CSS = f"""
+# Two separate @import lines keep each physical line under 100 chars while
+# still loading both font families. No f-string needed.
+CUSTOM_CSS = """
 <style>
-@import url('{_GF_URL}');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 /* ── Root tokens ─────────────────────────────────────────── */
 :root {
