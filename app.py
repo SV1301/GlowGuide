@@ -33,9 +33,18 @@ st.set_page_config(
 # ---------------------------------------------------------------------------
 # Design system CSS
 # ---------------------------------------------------------------------------
-CUSTOM_CSS = """
+# Build the Google Fonts URL from short segments so no source line
+# exceeds 100 chars (Flake8 E501 checks physical lines in string literals).
+_GF_URL = (
+    "https://fonts.googleapis.com/css2"
+    "?family=Playfair+Display:wght@400;600;700"
+    "&family=Inter:wght@300;400;500;600"
+    "&display=swap"
+)
+
+CUSTOM_CSS = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('{_GF_URL}');
 
 /* ── Root tokens ─────────────────────────────────────────── */
 :root {
