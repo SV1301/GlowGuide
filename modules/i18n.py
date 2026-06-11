@@ -35,8 +35,18 @@ SUPPORTED_LANGUAGES: dict[str, str] = {
 
 # English values used internally for database queries.
 # Must stay in sync with the order of translated lists in every locale file.
-CARE_AREAS_INTERNAL: list[str] = ["Skincare", "Bodycare", "Hygiene", "Haircare"]
+CARE_AREAS_INTERNAL: list[str] = ["Skincare", "Bodycare", "Haircare", "Hygiene"]
 SKIN_TYPES_INTERNAL: list[str] = ["all", "oily", "dry", "combination", "normal", "sensitive"]
+SCALP_TYPES_INTERNAL: list[str] = [
+    "all",
+    "oily",
+    "dry",
+    "normal",
+    "combination",
+    "flaky",
+    "sensitive",
+    "itchy",
+]
 CONCERNS_INTERNAL: list[str] = [
     "general",
     "dryness",
@@ -46,6 +56,23 @@ CONCERNS_INTERNAL: list[str] = [
     "texture",
     "odor",
     "pigmentation",
+]
+HAIRCARE_CONCERNS_INTERNAL: list[str] = [
+    "general",
+    "dandruff",
+    "hair fall",
+    "hair thinning",
+    "dry hair",
+    "frizzy hair",
+    "split ends",
+    "oily scalp",
+    "itchy scalp",
+    "product build-up",
+    "damaged hair",
+    "lack of volume",
+    "curly hair",
+    "color treated",
+    "heat damaged",
 ]
 BUDGETS_INTERNAL: list[str] = ["flexible", "low", "medium"]
 

@@ -17,17 +17,18 @@
   },
   "home": {
     "title": "GlowGuide",
-    "subheader": "A unisex personal care guide for skincare, bodycare, hygiene, and haircare.",
+    "subheader": "A unisex personal care guide for skincare, bodycare, haircare, and hygiene.",
     "description": "Explore product terms, build simple routines, and contribute safer beginner-friendly personal care knowledge through a moderated open-source workflow.",
+    "explore_btn": "Explore \u2192",
     "cards": {
       "skincare_title": "Skincare",
       "skincare_text": "Cleanse, moisturize, protect, and understand skin type basics.",
       "bodycare_title": "Bodycare",
       "bodycare_text": "Build body routines for dryness, odor, texture, and body acne support.",
+      "haircare_title": "Haircare",
+      "haircare_text": "Nourish your scalp and hair with targeted routines for every hair type.",
       "hygiene_title": "Hygiene",
-      "hygiene_text": "Learn practical daily hygiene categories and product terms.",
-      "contribute_title": "Contribute",
-      "contribute_text": "Suggest improvements that maintainers can review before publishing."
+      "hygiene_text": "Learn practical daily hygiene categories and product terms."
     }
   },
   "library": {
@@ -49,13 +50,22 @@
     "description": "Choose your care area, skin type, concern, and budget to get a simple starter routine.",
     "care_area_label": "Care area",
     "skin_type_label": "Skin type",
+    "scalp_type_label": "Scalp type",
     "concern_label": "Concern",
     "budget_label": "Budget",
-    "care_areas": ["Skincare", "Bodycare", "Hygiene", "Haircare"],
+    "care_areas": ["Skincare", "Bodycare", "Haircare", "Hygiene"],
     "skin_types": ["all", "oily", "dry", "combination", "normal", "sensitive"],
+    "scalp_types": ["all", "oily", "dry", "normal", "combination", "flaky", "sensitive", "itchy"],
     "concerns": [
       "general", "dryness", "oiliness", "acne",
       "sensitivity", "texture", "odor", "pigmentation"
+    ],
+    "haircare_concerns": [
+      "general", "dandruff", "hair fall", "hair thinning",
+      "dry hair", "frizzy hair", "split ends", "oily scalp",
+      "itchy scalp", "product build-up", "damaged hair",
+      "lack of volume", "curly hair maintenance", "color treated hair",
+      "heat damaged hair"
     ],
     "budgets": ["flexible", "low", "medium"],
     "suggested_routine": "Suggested Routine",
