@@ -1,27 +1,77 @@
-# Semgrep configuration for GlowGuide
-# Runs a curated set of rule-packs covering Python security and best-practices.
-# Run locally with: semgrep --config .semgrep.yml .
+# Semgrep local rules for GlowGuide
+# These run without a SEMGREP_APP_TOKEN (no network download required).
+#
+# To also run the full Semgrep registry rule packs (p/python, p/bandit):
+#   1. Get a free token at https://semgrep.dev
+#   2. Add SEMGREP_APP_TOKEN to:
+#      - GitHub:  Settings → Secrets and variables → Actions
+#      - GitLab:  Settings → CI/CD → Variables
 
-rules: []  # Project-level custom rules go here (see examples below)
+rules:
+  # ── Security ────────────────────────────────────────────────────────────
 
-# ---------------------------------------------------------------------------
-# Example custom rule – no hardcoded passwords in source
-# ---------------------------------------------------------------------------
-# - id: no-hardcoded-passwords
-#   patterns:
-#     - pattern: $VAR = "..."
-#   message: "Possible hardcoded credential in variable '$VAR'. Use environment variables."
-#   languages: [python]
-#   severity: WARNING
-#   metadata:
-#     category: security
-#     confidence: LOW
+  - id: no-hardcoded-passwords
+    patterns:
+      - pattern: $VAR = "..."
+      - metavariable-regex:
+          metavariable: $VAR
+          regex: (?i)(password|passwd|secret|token|api_key|apikey)
+    message: >
+      Possible hardcoded credential in '$VAR'.
+      Use environment variables or a secrets manager instead.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      confidence: MEDIUM
 
-# ---------------------------------------------------------------------------
-# CI invocation (see .github/workflows/quality.yml):
-#   semgrep --config "p/python"
-#          --config "p/bandit"
-#          --config "p/owasp-top-ten"
-#          --config ".semgrep.yml"
-#          --error
-# ---------------------------------------------------------------------------
+  - id: no-exec-or-eval
+    patterns:
+      - pattern: exec(...)
+      - pattern: eval(...)
+    message: >
+      Avoid exec() and eval() — they execute arbitrary code and are a
+      security risk. Refactor to use safer alternatives.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      confidence: HIGH
+
+  - id: no-shell-true
+    pattern: subprocess.run(..., shell=True, ...)
+    message: >
+      subprocess.run() with shell=True is vulnerable to shell injection.
+      Pass a list of arguments instead.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      confidence: HIGH
+
+  # ── Best practices ───────────────────────────────────────────────────────
+
+  - id: use-f-string-not-percent
+    pattern: $X % $Y
+    message: >
+      Prefer f-strings or str.format() over %-formatting for clarity.
+    languages: [python]
+    severity: INFO
+    metadata:
+      category: best-practice
+      confidence: LOW
+
+  - id: no-bare-except
+    pattern: |
+      try:
+        ...
+      except:
+        ...
+    message: >
+      Bare 'except:' catches all exceptions including SystemExit and
+      KeyboardInterrupt. Use 'except Exception:' or a specific exception type.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: best-practice
+      confidence: HIGH
