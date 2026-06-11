@@ -124,13 +124,21 @@ p, li, label { color: var(--c-dark); }
 .gg-home-card {
     background: var(--c-white);
     border-radius: var(--r-card);
-    padding: 1.6rem 1.2rem 1rem;
+    /* Fixed height keeps all four cards identical regardless of sidebar
+       state or text-wrap differences between languages. */
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.4rem 1rem .9rem;
     text-align: center;
     border: 1px solid var(--c-warm);
     box-shadow: var(--shadow);
     margin-bottom: .5rem;
     transition: transform var(--trans), box-shadow var(--trans);
     cursor: pointer;
+    overflow: hidden;
 }
 .gg-home-card:hover {
     transform: translateY(-4px);
@@ -139,25 +147,31 @@ p, li, label { color: var(--c-dark); }
 }
 .gg-home-card .gg-icon {
     font-size: 2rem;
-    margin-bottom: .5rem;
+    margin-bottom: .4rem;
     display: block;
+    flex-shrink: 0;
 }
 .gg-home-card h3 {
-    margin: .3rem 0 .5rem;
-    font-size: 1.15rem !important;
+    margin: .25rem 0 .4rem;
+    font-size: 1.1rem !important;
     color: var(--c-dark) !important;
+    flex-shrink: 0;
 }
 .gg-home-card p {
-    font-size: .86rem;
+    font-size: .83rem;
     color: var(--c-taupe);
-    margin: 0 0 .8rem;
-    line-height: 1.5;
+    margin: 0;
+    line-height: 1.45;
+    /* Clamp long descriptions to 3 lines so they never push the card taller */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-/* ── Buttons ─────────────────────────────────────────────── */
 .stButton > button {
     background: var(--c-burg) !important;
-    color: var(--c-off) !important;
+    color: #ffffff !important;
     border: none !important;
     border-radius: 8px !important;
     font-family: 'Inter', sans-serif !important;
@@ -167,9 +181,20 @@ p, li, label { color: var(--c-dark); }
     transition: background var(--trans), transform var(--trans) !important;
     letter-spacing: .02em !important;
 }
+/* Streamlit wraps button labels in <p> — override the global p colour rule */
+.stButton > button p,
+.stButton > button span,
+.stButton > button div {
+    color: #ffffff !important;
+}
 .stButton > button:hover {
     background: var(--c-burg2) !important;
     transform: translateY(-1px) !important;
+    color: #ffffff !important;
+}
+.stButton > button:hover p,
+.stButton > button:hover span {
+    color: #ffffff !important;
 }
 .stButton > button:active { transform: translateY(0) !important; }
 
