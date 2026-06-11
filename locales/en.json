@@ -1,0 +1,102 @@
+{
+  "app_title": "GlowGuide",
+  "language_selector": "\ud83c\udf10 Language / \u092d\u093e\u0937\u093e / \u0c2d\u0c3e\u0c37",
+  "nav": {
+    "navigate": "Navigate",
+    "home": "Home",
+    "library": "Product Library",
+    "routine": "Routine Builder",
+    "contribute": "Contribute",
+    "review": "Review Contributions"
+  },
+  "care_categories": {
+    "skincare": "Skincare",
+    "bodycare": "Bodycare",
+    "hygiene": "Hygiene",
+    "haircare": "Haircare"
+  },
+  "home": {
+    "title": "GlowGuide",
+    "subheader": "A unisex personal care guide for skincare, bodycare, hygiene, and haircare.",
+    "description": "Explore product terms, build simple routines, and contribute safer beginner-friendly personal care knowledge through a moderated open-source workflow.",
+    "cards": {
+      "skincare_title": "Skincare",
+      "skincare_text": "Cleanse, moisturize, protect, and understand skin type basics.",
+      "bodycare_title": "Bodycare",
+      "bodycare_text": "Build body routines for dryness, odor, texture, and body acne support.",
+      "hygiene_title": "Hygiene",
+      "hygiene_text": "Learn practical daily hygiene categories and product terms.",
+      "contribute_title": "Contribute",
+      "contribute_text": "Suggest improvements that maintainers can review before publishing."
+    }
+  },
+  "library": {
+    "header": "Product Library",
+    "description": "Search generic product categories and learn what each one does.",
+    "care_category_label": "Care category",
+    "search_label": "Search product terms",
+    "all_option": "All",
+    "no_results": "No matching product terms found yet.",
+    "card": {
+      "step": "Step",
+      "when": "When",
+      "look_for": "Look for",
+      "note": "Note"
+    }
+  },
+  "routine": {
+    "header": "Routine Builder",
+    "description": "Choose your care area, skin type, concern, and budget to get a simple starter routine.",
+    "care_area_label": "Care area",
+    "skin_type_label": "Skin type",
+    "concern_label": "Concern",
+    "budget_label": "Budget",
+    "care_areas": ["Skincare", "Bodycare", "Hygiene", "Haircare"],
+    "skin_types": ["all", "oily", "dry", "combination", "normal", "sensitive"],
+    "concerns": [
+      "general", "dryness", "oiliness", "acne",
+      "sensitivity", "texture", "odor", "pigmentation"
+    ],
+    "budgets": ["flexible", "low", "medium"],
+    "suggested_routine": "Suggested Routine",
+    "recommended_products": "Recommended Product Categories",
+    "no_match": "No exact database match yet. Try a broader concern or flexible budget.",
+    "table": {
+      "product": "Product",
+      "step": "Step",
+      "when": "When",
+      "look_for": "Look for",
+      "note": "Note"
+    },
+    "disclaimer": "GlowGuide is educational and does not diagnose or treat medical conditions. For persistent irritation, infection, severe acne, or allergic reactions, consult a qualified professional."
+  },
+  "contribute": {
+    "header": "Contribute to GlowGuide",
+    "description": "Submit beginner-friendly content suggestions. Contributions stay pending until reviewed.",
+    "title_label": "Contribution title",
+    "name_label": "Name or alias",
+    "name_default": "Community Contributor",
+    "type_label": "Contribution type",
+    "types": [
+      "product-term", "routine-step", "ingredient-note",
+      "caution-note", "correction", "other"
+    ],
+    "category_label": "Care category",
+    "content_label": "Proposed content",
+    "url_label": "Optional source URL",
+    "submit_btn": "Submit contribution",
+    "error_empty": "Please add a title and proposed content.",
+    "success": "Contribution submitted for review."
+  },
+  "review": {
+    "header": "Review Contributions",
+    "description": "For the MVP, this review screen is protected by a simple demo passcode.",
+    "passcode_label": "Maintainer passcode",
+    "passcode_hint": "Enter the demo passcode to review pending submissions.",
+    "no_pending": "No pending contributions.",
+    "reviewer_note_label": "Reviewer note",
+    "decision_label": "Decision",
+    "save_btn": "Save review",
+    "save_success": "Review saved. Refresh the page to update the list."
+  }
+}
