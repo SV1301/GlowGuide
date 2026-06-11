@@ -256,7 +256,8 @@ def review_page() -> None:
         with st.expander(f"#{row['id']} - {row['title']}"):
             st.write(row["proposed_content"])
             st.caption(
-                f"{row['contribution_type']} | {row['care_category']} | by {row['contributor_name']}"
+                f"{row['contribution_type']} | {row['care_category']}"
+                f" | by {row['contributor_name']}"
             )
             note = st.text_area("Reviewer note", key=f"note_{row['id']}")
             decision = st.selectbox(

@@ -58,9 +58,13 @@ def routine_summary(care_category: str, products: list[dict]) -> list[str]:
         if product["routine_step"] in seen_steps:
             continue
         seen_steps.add(product["routine_step"])
-        ordered_steps.append(f"{product['routine_step']}: {product['name']} - {product['when_to_use']}")
+        step_text = (
+            f"{product['routine_step']}: {product['name']} - {product['when_to_use']}"
+        )
+        ordered_steps.append(step_text)
 
-    if care_category.lower() == "skincare" and not any("Protect" in step for step in ordered_steps):
+    missing_protect = not any("Protect" in step for step in ordered_steps)
+    if care_category.lower() == "skincare" and missing_protect:
         ordered_steps.append("Protect: Sunscreen - every morning")
 
     return ordered_steps

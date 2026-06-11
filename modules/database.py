@@ -64,7 +64,8 @@ def initialize_database() -> None:
 
 def get_products() -> list[dict]:
     with connect() as conn:
-        rows = conn.execute("SELECT * FROM products ORDER BY care_category, routine_step, name").fetchall()
+        query = "SELECT * FROM products ORDER BY care_category, routine_step, name"
+        rows = conn.execute(query).fetchall()
         return [dict(row) for row in rows]
 
 
