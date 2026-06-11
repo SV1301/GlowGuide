@@ -70,9 +70,7 @@ def render_product_card(product: dict) -> None:
 
 def home_page() -> None:
     st.title("GlowGuide")
-    st.subheader(
-        "A unisex personal care guide for skincare, bodycare, hygiene, and haircare."
-    )
+    st.subheader("A unisex personal care guide for skincare, bodycare, hygiene, and haircare.")
     st.write(
         "Explore product terms, build simple routines, and contribute safer beginner-friendly "
         "personal care knowledge through a moderated open-source workflow."
@@ -105,9 +103,7 @@ def library_page(products) -> None:
     filtered = products
     if selected_category != "All":
         filtered = [
-            product
-            for product in filtered
-            if product["care_category"] == selected_category
+            product for product in filtered if product["care_category"] == selected_category
         ]
     if query:
         query_lower = query.lower()
@@ -138,9 +134,7 @@ def routine_page(products) -> None:
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        care_category = st.selectbox(
-            "Care area", ["Skincare", "Bodycare", "Hygiene", "Haircare"]
-        )
+        care_category = st.selectbox("Care area", ["Skincare", "Bodycare", "Hygiene", "Haircare"])
     with col2:
         skin_type = st.selectbox(
             "Skin type",
@@ -197,8 +191,7 @@ def routine_page(products) -> None:
 def contribute_page() -> None:
     st.header("Contribute to GlowGuide")
     st.write(
-        "Submit beginner-friendly content suggestions. "
-        "Contributions stay pending until reviewed."
+        "Submit beginner-friendly content suggestions. Contributions stay pending until reviewed."
     )
 
     with st.form("contribution_form", clear_on_submit=True):

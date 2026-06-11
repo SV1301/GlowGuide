@@ -25,18 +25,14 @@ def filter_products(
 
     if selected_concern != "general":
         concern_matches = [
-            product
-            for product in result
-            if selected_concern in product["related_concerns"].lower()
+            product for product in result if selected_concern in product["related_concerns"].lower()
         ]
         if concern_matches:
             result = concern_matches
 
     if selected_budget != "flexible":
         budget_matches = [
-            product
-            for product in result
-            if product["budget_level"].lower() == selected_budget
+            product for product in result if product["budget_level"].lower() == selected_budget
         ]
         if budget_matches:
             result = budget_matches
@@ -58,9 +54,7 @@ def routine_summary(care_category: str, products: list[dict]) -> list[str]:
         if product["routine_step"] in seen_steps:
             continue
         seen_steps.add(product["routine_step"])
-        step_text = (
-            f"{product['routine_step']}: {product['name']} - {product['when_to_use']}"
-        )
+        step_text = f"{product['routine_step']}: {product['name']} - {product['when_to_use']}"
         ordered_steps.append(step_text)
 
     missing_protect = not any("Protect" in step for step in ordered_steps)
