@@ -11,7 +11,6 @@ from modules.database import (
 )
 from modules.recommendations import filter_products, routine_summary
 
-
 st.set_page_config(
     page_title="GlowGuide",
     page_icon="G",
@@ -71,7 +70,9 @@ def render_product_card(product: dict) -> None:
 
 def home_page() -> None:
     st.title("GlowGuide")
-    st.subheader("A unisex personal care guide for skincare, bodycare, hygiene, and haircare.")
+    st.subheader(
+        "A unisex personal care guide for skincare, bodycare, hygiene, and haircare."
+    )
     st.write(
         "Explore product terms, build simple routines, and contribute safer beginner-friendly "
         "personal care knowledge through a moderated open-source workflow."
@@ -84,9 +85,13 @@ def home_page() -> None:
         ("Hygiene", "Learn practical daily hygiene categories and product terms."),
         ("Contribute", "Suggest improvements that maintainers can review before publishing."),
     ]
-    for col, (title, text) in zip(cols, cards):
+    # strict=False: cols and cards are always the same length by construction
+    for col, (title, text) in zip(cols, cards, strict=False):
         with col:
-            st.markdown(f"<div class='gg-card'><h3>{title}</h3><p>{text}</p></div>", unsafe_allow_html=True)
+            st.markdown(
+                f"<div class='gg-card'><h3>{title}</h3><p>{text}</p></div>",
+                unsafe_allow_html=True,
+            )
 
 
 def library_page(products) -> None:
@@ -99,7 +104,11 @@ def library_page(products) -> None:
 
     filtered = products
     if selected_category != "All":
-        filtered = [product for product in filtered if product["care_category"] == selected_category]
+        filtered = [
+            product
+            for product in filtered
+            if product["care_category"] == selected_category
+        ]
     if query:
         query_lower = query.lower()
         filtered = [
@@ -115,24 +124,41 @@ def library_page(products) -> None:
 
     for chunk_start in range(0, len(filtered), 2):
         cols = st.columns(2)
-        for col, product in zip(cols, filtered[chunk_start : chunk_start + 2]):
+        # strict=False: slice may have 1 or 2 items; cols always has 2
+        for col, product in zip(cols, filtered[chunk_start : chunk_start + 2], strict=False):
             with col:
                 render_product_card(product)
 
 
 def routine_page(products) -> None:
     st.header("Routine Builder")
-    st.write("Choose your care area, skin type, concern, and budget to get a simple starter routine.")
+    st.write(
+        "Choose your care area, skin type, concern, and budget to get a simple starter routine."
+    )
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        care_category = st.selectbox("Care area", ["Skincare", "Bodycare", "Hygiene", "Haircare"])
+        care_category = st.selectbox(
+            "Care area", ["Skincare", "Bodycare", "Hygiene", "Haircare"]
+        )
     with col2:
-        skin_type = st.selectbox("Skin type", ["all", "oily", "dry", "combination", "normal", "sensitive"])
+        skin_type = st.selectbox(
+            "Skin type",
+            ["all", "oily", "dry", "combination", "normal", "sensitive"],
+        )
     with col3:
         concern = st.selectbox(
             "Concern",
-            ["general", "dryness", "oiliness", "acne", "sensitivity", "texture", "odor", "pigmentation"],
+            [
+                "general",
+                "dryness",
+                "oiliness",
+                "acne",
+                "sensitivity",
+                "texture",
+                "odor",
+                "pigmentation",
+            ],
         )
     with col4:
         budget = st.selectbox("Budget", ["flexible", "low", "medium"])
@@ -163,22 +189,35 @@ def routine_page(products) -> None:
 
     st.warning(
         "GlowGuide is educational and does not diagnose or treat medical conditions. "
-        "For persistent irritation, infection, severe acne, or allergic reactions, consult a qualified professional."
+        "For persistent irritation, infection, severe acne, or allergic reactions, "
+        "consult a qualified professional."
     )
 
 
 def contribute_page() -> None:
     st.header("Contribute to GlowGuide")
-    st.write("Submit beginner-friendly content suggestions. Contributions stay pending until reviewed.")
+    st.write(
+        "Submit beginner-friendly content suggestions. "
+        "Contributions stay pending until reviewed."
+    )
 
     with st.form("contribution_form", clear_on_submit=True):
         title = st.text_input("Contribution title")
         contributor_name = st.text_input("Name or alias", value="Community Contributor")
         contribution_type = st.selectbox(
             "Contribution type",
-            ["product-term", "routine-step", "ingredient-note", "caution-note", "correction", "other"],
+            [
+                "product-term",
+                "routine-step",
+                "ingredient-note",
+                "caution-note",
+                "correction",
+                "other",
+            ],
         )
-        care_category = st.selectbox("Care category", ["Skincare", "Bodycare", "Hygiene", "Haircare"])
+        care_category = st.selectbox(
+            "Care category", ["Skincare", "Bodycare", "Hygiene", "Haircare"]
+        )
         proposed_content = st.text_area("Proposed content", height=150)
         source_url = st.text_input("Optional source URL")
         submitted = st.form_submit_button("Submit contribution")
@@ -216,9 +255,15 @@ def review_page() -> None:
     for row in pending:
         with st.expander(f"#{row['id']} - {row['title']}"):
             st.write(row["proposed_content"])
-            st.caption(f"{row['contribution_type']} | {row['care_category']} | by {row['contributor_name']}")
+            st.caption(
+                f"{row['contribution_type']} | {row['care_category']} | by {row['contributor_name']}"
+            )
             note = st.text_area("Reviewer note", key=f"note_{row['id']}")
-            decision = st.selectbox("Decision", ["approved", "rejected", "needs-changes"], key=f"decision_{row['id']}")
+            decision = st.selectbox(
+                "Decision",
+                ["approved", "rejected", "needs-changes"],
+                key=f"decision_{row['id']}",
+            )
             if st.button("Save review", key=f"save_{row['id']}"):
                 review_contribution(int(row["id"]), decision, note)
                 st.success("Review saved. Refresh the page to update the list.")
