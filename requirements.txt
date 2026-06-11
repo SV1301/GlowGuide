@@ -1,1 +1,15 @@
+# Runtime dependency
 streamlit
+
+# ---------------------------------------------------------------------------
+# Development / Quality tools  (install with: pip install -r requirements.txt)
+# Not required by Streamlit Community Cloud – kept here for contributor setup.
+# ---------------------------------------------------------------------------
+ruff
+mypy
+vulture
+bandit[toml]
+pylint
+flake8
+semgrep
+pyupgrade

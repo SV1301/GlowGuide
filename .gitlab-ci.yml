@@ -1,0 +1,104 @@
+# GitLab CI – Code Quality & Tools
+# Mirrors the GitHub Actions workflow so the same checks run on both platforms.
+
+stages:
+  - quality
+
+.python_setup: &python_setup
+  image: python:3.10-slim
+  before_script:
+    - pip install --upgrade pip
+    - pip install ruff mypy vulture "bandit[toml]" pylint flake8 semgrep pyupgrade
+    - pip install streamlit
+
+# ---------------------------------------------------------------------------
+# Ruff
+# ---------------------------------------------------------------------------
+ruff-lint:
+  <<: *python_setup
+  stage: quality
+  script:
+    - ruff check . --output-format=gitlab
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+    when: always
+
+ruff-format:
+  <<: *python_setup
+  stage: quality
+  script:
+    - ruff format --check .
+
+# ---------------------------------------------------------------------------
+# Flake8
+# ---------------------------------------------------------------------------
+flake8:
+  <<: *python_setup
+  stage: quality
+  script:
+    - flake8 app.py modules/
+
+# ---------------------------------------------------------------------------
+# Pylint
+# ---------------------------------------------------------------------------
+pylint:
+  <<: *python_setup
+  stage: quality
+  script:
+    - pylint app.py modules/ --fail-under=7.0
+
+# ---------------------------------------------------------------------------
+# Mypy
+# ---------------------------------------------------------------------------
+mypy:
+  <<: *python_setup
+  stage: quality
+  script:
+    - mypy app.py modules/
+
+# ---------------------------------------------------------------------------
+# Bandit
+# ---------------------------------------------------------------------------
+bandit:
+  <<: *python_setup
+  stage: quality
+  script:
+    - bandit -r app.py modules/ -c pyproject.toml
+
+# ---------------------------------------------------------------------------
+# Vulture
+# ---------------------------------------------------------------------------
+vulture:
+  <<: *python_setup
+  stage: quality
+  script:
+    - vulture app.py modules/ --min-confidence 80
+
+# ---------------------------------------------------------------------------
+# Pyupgrade
+# ---------------------------------------------------------------------------
+pyupgrade:
+  <<: *python_setup
+  stage: quality
+  script:
+    - find . -name "*.py"
+        -not -path "./.venv/*"
+        -not -path "./specs/*"
+        | xargs pyupgrade --py310-plus
+
+# ---------------------------------------------------------------------------
+# Semgrep
+# ---------------------------------------------------------------------------
+semgrep:
+  <<: *python_setup
+  stage: quality
+  variables:
+    SEMGREP_APP_TOKEN: $SEMGREP_APP_TOKEN   # set in GitLab CI/CD Variables
+  script:
+    - semgrep
+        --config "p/python"
+        --config "p/bandit"
+        --config ".semgrep.yml"
+        --error
+        app.py modules/

@@ -1,0 +1,27 @@
+# Semgrep configuration for GlowGuide
+# Runs a curated set of rule-packs covering Python security and best-practices.
+# Run locally with: semgrep --config .semgrep.yml .
+
+rules: []  # Project-level custom rules go here (see examples below)
+
+# ---------------------------------------------------------------------------
+# Example custom rule – no hardcoded passwords in source
+# ---------------------------------------------------------------------------
+# - id: no-hardcoded-passwords
+#   patterns:
+#     - pattern: $VAR = "..."
+#   message: "Possible hardcoded credential in variable '$VAR'. Use environment variables."
+#   languages: [python]
+#   severity: WARNING
+#   metadata:
+#     category: security
+#     confidence: LOW
+
+# ---------------------------------------------------------------------------
+# CI invocation (see .github/workflows/quality.yml):
+#   semgrep --config "p/python"
+#          --config "p/bandit"
+#          --config "p/owasp-top-ten"
+#          --config ".semgrep.yml"
+#          --error
+# ---------------------------------------------------------------------------
