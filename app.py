@@ -92,7 +92,7 @@ def home_page() -> None:
             )
 
 
-def library_page(products) -> None:
+def library_page(products: list[dict]) -> None:
     st.header("Product Library")
     st.write("Search generic product categories and learn what each one does.")
 
@@ -126,7 +126,7 @@ def library_page(products) -> None:
                 render_product_card(product)
 
 
-def routine_page(products) -> None:
+def routine_page(products: list[dict]) -> None:
     st.header("Routine Builder")
     st.write(
         "Choose your care area, skin type, concern, and budget to get a simple starter routine."
