@@ -15,13 +15,12 @@ import pytest
 # Database module tests
 # ---------------------------------------------------------------------------
 
+
 def test_seed_products_not_empty() -> None:
     """SEED_PRODUCTS must contain at least 40 entries."""
     from modules.database import SEED_PRODUCTS
 
-    assert len(SEED_PRODUCTS) >= 40, (
-        f"Expected at least 40 seed products, got {len(SEED_PRODUCTS)}"
-    )
+    assert len(SEED_PRODUCTS) >= 40, f"Expected at least 40 seed products, got {len(SEED_PRODUCTS)}"
 
 
 def test_seed_product_schema() -> None:
@@ -29,9 +28,7 @@ def test_seed_product_schema() -> None:
     from modules.database import SEED_PRODUCTS
 
     for idx, product in enumerate(SEED_PRODUCTS):
-        assert len(product) == 10, (
-            f"Product at index {idx} has {len(product)} fields, expected 10"
-        )
+        assert len(product) == 10, f"Product at index {idx} has {len(product)} fields, expected 10"
 
 
 def test_seed_product_care_categories() -> None:
@@ -59,6 +56,7 @@ def test_seed_product_budget_levels() -> None:
 # ---------------------------------------------------------------------------
 # Recommendations module tests
 # ---------------------------------------------------------------------------
+
 
 def test_filter_products_returns_list() -> None:
     """filter_products must return a list."""
