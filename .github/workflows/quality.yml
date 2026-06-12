@@ -7,6 +7,22 @@ on:
     branches: ["main"]
 
 jobs:
+  # ── Secret Scanning ──────────────────────────────────────────────────────
+  secret-scanning:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for gitleaks
+
+      - name: Gitleaks – detect secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── Python quality checks ────────────────────────────────────────────────
   quality:
     name: Quality & Tools
     runs-on: ubuntu-latest
@@ -26,13 +42,15 @@ jobs:
       - name: Install quality tools
         run: |
           python -m pip install --upgrade pip
-          pip install ruff mypy vulture "bandit[toml]" pylint flake8 semgrep pyupgrade
+          pip install ruff mypy vulture "bandit[toml]" pylint flake8 semgrep \
+                      pyupgrade pytest pytest-cov
           pip install streamlit   # needed for import resolution
 
-      # ── Ruff ─────────────────────────────────────────────────────────────
+      # ── Ruff – lint ───────────────────────────────────────────────────────
       - name: Ruff – lint
         run: ruff check . --output-format=github
 
+      # ── Ruff – format ─────────────────────────────────────────────────────
       - name: Ruff – format check
         run: ruff format --check .
 
@@ -44,7 +62,7 @@ jobs:
       - name: Pylint
         run: pylint app.py modules/ --fail-under=7.0
 
-      # ── Mypy ─────────────────────────────────────────────────────────────
+      # ── Mypy – type checking ──────────────────────────────────────────────
       - name: Mypy – type check
         run: mypy app.py modules/
 
@@ -75,3 +93,37 @@ jobs:
             --config ".semgrep.yml" \
             --error \
             app.py modules/
+
+      # ── Coverage reporting ────────────────────────────────────────────────
+      - name: Coverage – run tests with coverage
+        run: |
+          pytest --cov=modules --cov-report=xml --cov-report=term-missing \
+                 --ignore=.venv --ignore=specs -q || true
+
+      - name: Coverage – upload report
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # ── Changelog generation ─────────────────────────────────────────────────
+  changelog:
+    name: Changelog – git-cliff
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog with git-cliff
+        uses: orhun/git-cliff-action@v3
+        with:
+          config: cliff.toml
+          args: --verbose
+        env:
+          OUTPUT: CHANGELOG.md
+          GITHUB_REPO: ${{ github.repository }}

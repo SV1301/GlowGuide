@@ -13,3 +13,5 @@ pylint
 flake8
 semgrep
 pyupgrade
+pytest
+pytest-cov

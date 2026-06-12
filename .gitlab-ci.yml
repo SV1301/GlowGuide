@@ -2,17 +2,35 @@
 # Mirrors the GitHub Actions workflow so the same checks run on both platforms.
 
 stages:
+  - security
   - quality
+  - coverage
+  - changelog
 
 .python_setup: &python_setup
   image: python:3.10-slim
   before_script:
     - pip install --upgrade pip
     - pip install ruff mypy vulture "bandit[toml]" pylint flake8 semgrep pyupgrade
+    - pip install pytest pytest-cov
     - pip install streamlit
 
 # ---------------------------------------------------------------------------
-# Ruff
+# Secret Scanning (GitLab native)
+# ---------------------------------------------------------------------------
+secret_detection:
+  stage: security
+  image: registry.gitlab.com/security-products/secret-detection:5
+  script:
+    - /analyzer run
+  artifacts:
+    reports:
+      secret_detection: gl-secret-detection-report.json
+    when: always
+  allow_failure: true
+
+# ---------------------------------------------------------------------------
+# Ruff – lint
 # ---------------------------------------------------------------------------
 ruff-lint:
   <<: *python_setup
@@ -24,6 +42,9 @@ ruff-lint:
       codequality: gl-code-quality-report.json
     when: always
 
+# ---------------------------------------------------------------------------
+# Ruff – format
+# ---------------------------------------------------------------------------
 ruff-format:
   <<: *python_setup
   stage: quality
@@ -49,7 +70,7 @@ pylint:
     - pylint app.py modules/ --fail-under=7.0
 
 # ---------------------------------------------------------------------------
-# Mypy
+# Mypy – type checking
 # ---------------------------------------------------------------------------
 mypy:
   <<: *python_setup
@@ -90,15 +111,46 @@ pyupgrade:
 # ---------------------------------------------------------------------------
 # Semgrep – local rules only (no token required)
 # Remote rule packs (p/python, p/bandit) require a SEMGREP_APP_TOKEN.
-# To enable them: add SEMGREP_APP_TOKEN in GitLab → Settings → CI/CD → Variables
 # ---------------------------------------------------------------------------
 semgrep:
   <<: *python_setup
   stage: quality
-  allow_failure: true   # remove this line once SEMGREP_APP_TOKEN is configured
+  allow_failure: true
   script:
     - semgrep
         --config ".semgrep.yml"
         --error
         app.py modules/
 
+# ---------------------------------------------------------------------------
+# Coverage reporting
+# ---------------------------------------------------------------------------
+coverage:
+  <<: *python_setup
+  stage: coverage
+  script:
+    - pytest --cov=modules --cov-report=xml --cov-report=term-missing
+        --ignore=.venv --ignore=specs -q || true
+    - python -m coverage report
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    when: always
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+
+# ---------------------------------------------------------------------------
+# Changelog – git-cliff
+# ---------------------------------------------------------------------------
+changelog:
+  image: orhunp/git-cliff:latest
+  stage: changelog
+  only:
+    - main
+  script:
+    - git-cliff --config cliff.toml --output CHANGELOG.md
+  artifacts:
+    paths:
+      - CHANGELOG.md
+    when: always

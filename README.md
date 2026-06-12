@@ -1,101 +1,262 @@
 # GlowGuide
 
-GlowGuide is an interactive unisex personal care platform. It helps users understand skincare, bodycare, hygiene, and basic self-care product categories, then guides them through personalized routines based on skin type, concern, and budget.
+> A unisex, beginner-friendly personal care education platform — Skincare · Bodycare · Haircare · Hygiene.
 
-## Problem Statement
+[![Live App](https://img.shields.io/badge/Live%20App-glowguide--personalcare.streamlit.app-610C27?style=flat-square&logo=streamlit)](https://glowguide-personalcare.streamlit.app/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=flat-square)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square&logo=python)](https://www.python.org/)
+[![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-black?style=flat-square)](https://github.com/astral-sh/ruff)
+[![Type checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue?style=flat-square)](http://mypy-lang.org/)
+[![CI: GitHub Actions](https://img.shields.io/github/actions/workflow/status/SV1301/GlowGuide/quality.yml?branch=main&label=CI&style=flat-square)](https://github.com/SV1301/GlowGuide/actions)
 
-Many beginners feel confused by personal care content because product terms, routines, skin types, and ingredient advice are scattered across social media, blogs, and shopping apps. GlowGuide organizes this information into one beginner-friendly platform where users can learn what each product does, when to use it, and how to build a safe routine.
+---
 
-## Proposed Solution
+## Table of Contents
 
-GlowGuide provides:
+1. [About](#about)
+2. [Features](#features)
+3. [Tech Stack](#tech-stack)
+4. [Architecture](#architecture)
+5. [Quick Start](#quick-start)
+6. [Project Structure](#project-structure)
+7. [Configuration](#configuration)
+8. [Multilingual Support](#multilingual-support)
+9. [Contributing](#contributing)
+10. [Code Quality](#code-quality)
+11. [License](#license)
 
-- Educational sections for skincare, bodycare, hygiene, and haircare.
-- A searchable product library explaining generic product terms.
-- Routine guidance for oily, dry, combination, normal, and sensitive skin.
-- Bodycare guidance for concerns like dryness, body acne, pigmentation, odor, and ingrown hair.
-- A recommendation flow powered by database records for product categories, routine steps, skin types, and concerns.
-- An open-source contribution system where the public can suggest product terms, routine improvements, ingredient notes, and educational content.
-- A moderation workflow so public contributions are reviewed before becoming visible recommendations.
-- Clear disclaimers that the platform gives educational guidance and does not replace medical advice.
+---
+
+## About
+
+Many beginners feel overwhelmed by personal care content scattered across social media, blogs, and shopping apps. GlowGuide organises this information into one inclusive, beginner-friendly platform where users can:
+
+- Understand what each generic product category does and when to use it.
+- Build a simple starter routine tailored to their skin/scalp type, concern, and budget.
+- Contribute knowledge through a moderated open-source workflow.
+
+GlowGuide is **educational only** and does not diagnose or treat medical conditions.
+
+---
+
+## Features
+
+| Feature | Description |
+|---|---|
+| 📚 **Product Library** | 50+ generic product categories across Skincare, Bodycare, Haircare, and Hygiene |
+| 🧴 **Routine Builder** | Filter by care area, skin/scalp type, concern, and budget to get a personalised starter routine |
+| 💆 **Haircare Support** | Dedicated scalp-type selector and 15 haircare-specific concerns |
+| 🌐 **Multilingual** | English, Hindi (हिन्दी), and Telugu (తెలుగు) — extensible to more languages |
+| 📝 **Contributions** | Public submission form with pending/review/approve workflow |
+| 🔒 **Moderation** | Passcode-protected reviewer screen; all submissions reviewed before going live |
+| 🎨 **Premium UI** | Sensual colour palette, Playfair Display + Inter typography, animated cards |
+
+---
 
 ## Tech Stack
 
-- App Framework: Streamlit
-- Language: Python
-- Data Handling: pandas
-- Database: SQLite for MVP, Supabase PostgreSQL as future cloud database option
-- Charts/Visuals: Streamlit native charts and optional Plotly
-- Styling: Streamlit theme configuration and custom CSS
-- Deployment: Streamlit Community Cloud
-- Version Control: GitLab
+| Layer | Technology |
+|---|---|
+| Framework | [Streamlit](https://streamlit.io/) |
+| Language | Python 3.10+ |
+| Database | SQLite (via Python `sqlite3`) |
+| Internationalisation | JSON locale files + custom `modules/i18n.py` |
+| Styling | Vanilla CSS injected via `st.markdown` |
+| Deployment | [Streamlit Community Cloud](https://streamlit.io/cloud) |
+| CI/CD | GitHub Actions · GitLab CI |
+| Linting | Ruff · Flake8 · Pylint · Bandit · Mypy · Semgrep |
 
-## How to Run Locally
+---
 
-Use Windows PowerShell from the repository root.
+## Architecture
+
+```
+GlowGuide/
+├── app.py                  # Streamlit entry point — pages, routing, UI
+├── modules/
+│   ├── database.py         # SQLite init, seed data (50 products), CRUD helpers
+│   ├── recommendations.py  # Product filtering + routine summary logic
+│   └── i18n.py             # Translation engine — t(), tl(), init_language()
+├── locales/
+│   ├── en.json             # English strings (source of truth)
+│   ├── hi.json             # Hindi strings
+│   └── te.json             # Telugu strings
+├── .streamlit/
+│   └── config.toml         # Streamlit theme (Sensual palette)
+├── .github/workflows/
+│   └── quality.yml         # GitHub Actions CI pipeline
+├── .gitlab-ci.yml          # GitLab CI pipeline (mirrors GitHub)
+├── cliff.toml              # git-cliff changelog config
+├── pyproject.toml          # Ruff, Mypy, Pylint, Bandit, Vulture config
+├── requirements.txt        # Runtime + dev dependencies
+└── LICENSE                 # GNU AGPLv3
+```
+
+### Data flow
+
+```
+User selects care area / skin type / concern / budget
+              │
+              ▼
+    modules/recommendations.py
+      filter_products()          ◄── SQLite DB (glowguide.db)
+      routine_summary()
+              │
+              ▼
+    app.py renders results via st.table() + st.markdown()
+```
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.10 or higher
+- Git
+
+### Installation (Windows PowerShell)
 
 ```powershell
-python --version
+# 1. Clone the repository
+git clone https://github.com/SV1301/GlowGuide.git
+cd GlowGuide
+
+# 2. Create and activate a virtual environment
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Run the app
+streamlit run app.py
+```
+
+### Installation (Linux / macOS)
+
+```bash
+git clone https://github.com/SV1301/GlowGuide.git
+cd GlowGuide
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-If `python --version` does not work, install Python from https://www.python.org/downloads/ and enable the "Add python.exe to PATH" checkbox during installation.
+The app opens at **http://localhost:8501**.
 
-After running the app, Streamlit will show a local URL such as:
+---
 
-```text
-http://localhost:8501
+## Project Structure
+
+```
+modules/database.py     — SQLite helpers: initialize_database(), get_products(),
+                          save_contribution(), review_contribution()
+modules/recommendations.py — filter_products(), routine_summary()
+modules/i18n.py         — SUPPORTED_LANGUAGES, t(), tl(), init_language(),
+                          render_language_selector()
+locales/en.json         — All user-facing strings (English baseline)
+locales/hi.json         — Hindi translations
+locales/te.json         — Telugu translations
 ```
 
-Open that URL in your browser.
+> **Adding a new language:** Create `locales/<code>.json` mirroring `en.json`, then add one entry to `SUPPORTED_LANGUAGES` in `modules/i18n.py`.
 
-## Compliance Notes
+---
 
-The repository includes the standard Spec Kit structure:
+## Configuration
 
-- `.specify/memory/constitution.md`
-- `.specify/templates/spec-template.md`
-- `.specify/templates/plan-template.md`
-- `.specify/templates/tasks-template.md`
-- `specs/001-glowguide-personal-care-platform/spec.md`
-- `specs/001-glowguide-personal-care-platform/plan.md`
-- `specs/001-glowguide-personal-care-platform/tasks.md`
+| File | Purpose |
+|---|---|
+| `.streamlit/config.toml` | Streamlit theme — primary colour `#610C27`, background `#EFECE9` |
+| `pyproject.toml` | Ruff, Mypy, Pylint, Bandit, Vulture settings |
+| `.flake8` | Flake8 settings (max-line-length = 100) |
+| `.semgrep.yml` | Local Semgrep security rules |
+| `cliff.toml` | git-cliff changelog configuration |
+| `.env.example` | Environment variable template |
 
-## UI Direction
+---
 
-GlowGuide should use a unisex, calm, clean design instead of a heavily feminine visual style. The interface should feel inclusive, modern, and care-focused with neutral colors such as soft white, mist gray, sage, teal, muted blue, and warm accent tones. Copy should address "users" or "people" rather than only girls or women.
+## Multilingual Support
 
-## Open Source Contribution Model
+GlowGuide supports **English**, **Hindi**, and **Telugu** out of the box.
 
-GlowGuide is designed as an open-source knowledge platform. Contributors can help by:
+- Switch language from the sidebar selector at any time.
+- The selected language is persisted via `?lang=<code>` URL parameter (shareable).
+- All UI strings are externalised in `locales/*.json` — no hardcoded text in Python.
+- Database filter values always use English internally so switching language never breaks recommendations.
 
-- Suggesting new generic product terms.
-- Adding beginner-friendly explanations.
-- Improving routine guidance.
-- Adding ingredient notes and caution notes.
-- Reporting outdated or unsafe content.
+---
 
-Public submissions should enter a `pending` review state. Maintainers review each contribution for clarity, safety, duplication, and source quality before approving it for the public product library or recommendation system.
+## Contributing
 
-## Spec Kit Artifacts
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
-Spec Kit documentation is available in:
+### Development workflow
 
-- `.specify/memory/constitution.md`
-- `specs/001-glowguide-personal-care-platform/spec.md`
-- `specs/001-glowguide-personal-care-platform/plan.md`
-- `specs/001-glowguide-personal-care-platform/tasks.md`
-- `specs/001-glowguide-personal-care-platform/research.md`
-- `specs/001-glowguide-personal-care-platform/data-model.md`
+```powershell
+# Run all quality checks locally
+ruff check .
+ruff format --check .
+flake8 app.py modules/
+mypy app.py modules/
+bandit -r app.py modules/ -c pyproject.toml
+```
 
-## Future Scope
+### Commit convention
 
-- Admin panel for updating product entries.
-- User saved routines.
-- Region-specific product recommendations.
-- Ingredient checker.
-- Dermatologist-reviewed content badges.
-- Multilingual support.
+This project uses [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add dark mode toggle
+fix: prevent empty routine builder results
+docs: update multilingual setup guide
+chore: bump ruff to 0.4.x
+```
+
+Changelogs are generated automatically by [git-cliff](https://git-cliff.org/) on each release.
+
+---
+
+## Code Quality
+
+The CI pipeline (GitHub Actions + GitLab CI) runs on every push to `main`:
+
+| Tool | Purpose |
+|---|---|
+| **Ruff – lint** | Fast Python linter (replaces Flake8 for most rules) |
+| **Ruff – format** | Enforces consistent formatting |
+| **Flake8** | Additional style checks |
+| **Pylint** | Deep static analysis (threshold: 7.0/10) |
+| **Mypy** | Static type checking |
+| **Bandit** | Security vulnerability scanning |
+| **Semgrep** | Custom security rules (local config) |
+| **Vulture** | Dead code detection |
+| **Pyupgrade** | Enforces modern Python syntax |
+| **Gitleaks** | Secret / credential leak detection |
+| **Coverage** | Test coverage reporting (pytest-cov) |
+| **git-cliff** | Automated changelog from conventional commits |
+
+---
+
+## Security
+
+Please read [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.  
+Do not open public issues for security vulnerabilities.
+
+---
+
+## License
+
+GlowGuide is released under the **GNU Affero General Public License v3.0 (AGPLv3)**.  
+See [LICENSE](LICENSE) for the full text.
+
+```
+Copyright (C) 2025 GlowGuide Contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+```
