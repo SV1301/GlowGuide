@@ -14,16 +14,17 @@
 ## Table of Contents
 
 1. [About](#about)
-2. [Features](#features)
-3. [Tech Stack](#tech-stack)
-4. [Architecture](#architecture)
-5. [Quick Start](#quick-start)
-6. [Project Structure](#project-structure)
-7. [Configuration](#configuration)
-8. [Multilingual Support](#multilingual-support)
-9. [Contributing](#contributing)
-10. [Code Quality](#code-quality)
-11. [License](#license)
+2. [Demo](#demo)
+3. [Features](#features)
+4. [Tech Stack](#tech-stack)
+5. [Architecture](#architecture)
+6. [Quick Start](#quick-start)
+7. [Project Structure](#project-structure)
+8. [Configuration](#configuration)
+9. [Multilingual Support](#multilingual-support)
+10. [Contributing](#contributing)
+11. [Code Quality](#code-quality)
+12. [License](#license)
 
 ---
 
@@ -36,6 +37,24 @@ Many beginners feel overwhelmed by personal care content scattered across social
 - Contribute knowledge through a moderated open-source workflow.
 
 GlowGuide is **educational only** and does not diagnose or treat medical conditions.
+
+---
+
+## Demo
+
+> **Live app →** [glowguide-personalcare.streamlit.app](https://glowguide-personalcare.streamlit.app/)
+
+### Home — Care Category Navigator
+
+![GlowGuide Home Page](docs/screenshots/home.png)
+
+### Product Library — Searchable & Filterable
+
+![GlowGuide Product Library](docs/screenshots/product_library.png)
+
+### Routine Builder — Personalised Starter Routines
+
+![GlowGuide Routine Builder](docs/screenshots/routine_builder.png)
 
 ---
 
@@ -191,7 +210,15 @@ GlowGuide supports **English**, **Hindi**, and **Telugu** out of the box.
 
 ## Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide including:
+
+- Branch naming convention and PR process
+- Coding standards and quality checks
+- How to run tests
+- How to report bugs and request features
+- Content guidelines for educational submissions
+
+You can also contribute knowledge directly through the **Contribute** page in the live app — no coding required.
 
 ### Development workflow
 
@@ -202,6 +229,9 @@ ruff format --check .
 flake8 app.py modules/
 mypy app.py modules/
 bandit -r app.py modules/ -c pyproject.toml
+
+# Run tests
+pytest --cov=modules --cov-report=term-missing -q
 ```
 
 ### Commit convention
@@ -209,13 +239,25 @@ bandit -r app.py modules/ -c pyproject.toml
 This project uses [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
-feat: add dark mode toggle
+feat: add mental wellness care category
 fix: prevent empty routine builder results
 docs: update multilingual setup guide
 chore: bump ruff to 0.4.x
+i18n: add Tamil locale file
 ```
 
 Changelogs are generated automatically by [git-cliff](https://git-cliff.org/) on each release.
+
+### Useful docs
+
+| Document | Purpose |
+|---|---|
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Full contributor guide |
+| [docs/feedback.md](docs/feedback.md) | User feedback loop and prioritisation |
+| [docs/growth-strategy.md](docs/growth-strategy.md) | Growth strategy (user base) |
+| [docs/geographical-expansion.md](docs/geographical-expansion.md) | Geographical expansion plan |
+| [PRIVACY.md](PRIVACY.md) | Privacy policy |
+| [SECURITY.md](SECURITY.md) | Security and vulnerability disclosure |
 
 ---
 
@@ -240,9 +282,10 @@ The CI pipeline (GitHub Actions + GitLab CI) runs on every push to `main`:
 
 ---
 
-## Security
+## Security & Privacy
 
 Please read [SECURITY.md](SECURITY.md) for our vulnerability disclosure policy.  
+Please read [PRIVACY.md](PRIVACY.md) for how user data and contributions are handled.  
 Do not open public issues for security vulnerabilities.
 
 ---
